@@ -1,10 +1,13 @@
 package view;
 
-import java.awt.CardLayout;
+import controller.Arquivo;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.List;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,13 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.AbstractListModel;
-import javax.swing.JSpinner;
-import javax.swing.JScrollBar;
-import javax.swing.ListSelectionModel;
-import javax.swing.JTextArea;
-import java.awt.TextField;
-import javax.swing.JTextPane;
+
 
 public class ViewSimulador {
 
@@ -63,6 +60,8 @@ public class ViewSimulador {
 	}
 	
 	private void janelaInstrucoes(){
+		
+		Arquivo instrucoes = new Arquivo("a.txt");
 		JPanel janelaInstrucoes = new JPanel();
 		janelaInstrucoes.setBorder(new LineBorder(Color.BLACK));
 		janelaInstrucoes.setBounds(10, 11, 570, 370);
@@ -79,9 +78,9 @@ public class ViewSimulador {
 		tabelaInstrucoes.setBounds(21, 34, 539, 325);
 		tabelaInstrucoes.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				{instrucoes.getLinha(0), null, null, null, null},
+				{instrucoes.getLinha(1), null, null, null, null},
+				{instrucoes.getLinha(2), null, null, null, null},
 				{null, null, null, null, null},
 				{null, null, null, null, null},
 				{null, null, null, null, null},
@@ -183,10 +182,9 @@ public class ViewSimulador {
 		lblJanelaDeSada.setFont(new Font("Tahoma", Font.BOLD, 14));
 		janelaSaida.add(lblJanelaDeSada);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setText("1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n7\r\n7\r\n7\r\n7\r\n7\r\n8");
-		textPane.setBounds(10, 36, 170, 163);
-		janelaSaida.add(textPane);
+		List list = new List();
+		list.setBounds(10, 29, 170, 171);
+		janelaSaida.add(list);
 	}
 	
 	private void janelaBreakPoints() {
@@ -205,5 +203,10 @@ public class ViewSimulador {
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 35, 130, 164);
 		janelaBreakPoints.add(panel);
+		panel.setLayout(null);
+		
+		List list = new List();
+		list.setBounds(10, 10, 110, 149);
+		panel.add(list);
 	}
 }
