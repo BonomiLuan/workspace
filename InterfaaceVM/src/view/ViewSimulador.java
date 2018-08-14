@@ -1,6 +1,7 @@
 package view;
 
 import controller.Arquivo;
+import controller.separaArquivo;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -47,11 +48,13 @@ public class ViewSimulador {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		janelaInstrucoes();
-		janelaConteudoPilha();
-		janelaDeEntrada();
-		janelaDeSaida();	
-		janelaBreakPoints();
+		Arquivo instrucoes = new Arquivo("a.txt");
+		
+		janelaInstrucoes(instrucoes);
+		janelaConteudoPilha(instrucoes);
+		janelaDeEntrada(instrucoes);
+		janelaDeSaida(instrucoes);	
+		janelaBreakPoints(instrucoes);
 		
 
 		JButton btnContinuar = new JButton("Continuar");
@@ -59,9 +62,8 @@ public class ViewSimulador {
 		frame.getContentPane().add(btnContinuar);
 	}
 	
-	private void janelaInstrucoes(){
+	private void janelaInstrucoes(Arquivo instrucoes){
 		
-		Arquivo instrucoes = new Arquivo("a.txt");
 		JPanel janelaInstrucoes = new JPanel();
 		janelaInstrucoes.setBorder(new LineBorder(Color.BLACK));
 		janelaInstrucoes.setBounds(10, 11, 570, 370);
@@ -97,7 +99,10 @@ public class ViewSimulador {
 		janelaInstrucoes.add(tabelaInstrucoes);
 	}
 	
-	private void janelaConteudoPilha(){
+	private void janelaConteudoPilha(Arquivo instrucoes){
+		
+		separaArquivo palavra = new separaArquivo();
+		
 		JPanel janelaConteudoPilha = new JPanel();
 		janelaConteudoPilha.setBorder(new LineBorder(new Color(0, 0, 0)));
 		janelaConteudoPilha.setBounds(590, 11, 184, 590);
@@ -113,9 +118,9 @@ public class ViewSimulador {
 		tabelaConteudoPilha = new JTable();
 		tabelaConteudoPilha.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
+				{instrucoes.getLinha(0), null},
+				{instrucoes.getLinha(1), null},
+				{palavra.getPalavra(instrucoes.getLinha(0), 0), palavra.getPalavra(instrucoes.getLinha(0), 1)},
 				{null, null},
 			},
 			new String[] {
@@ -136,7 +141,7 @@ public class ViewSimulador {
 		janelaConteudoPilha.add(tabelaConteudoPilha);
 	}
 	
-	private void janelaDeEntrada() {
+	private void janelaDeEntrada(Arquivo instrucoes) {
 		JPanel janelaEntrada = new JPanel();
 		janelaEntrada.setBorder(new LineBorder(new Color(0, 0, 0)));
 		janelaEntrada.setBounds(10, 392, 190, 210);
@@ -149,27 +154,13 @@ public class ViewSimulador {
 		lblJanelaDeEntrada.setForeground(Color.BLUE);
 		janelaEntrada.add(lblJanelaDeEntrada);
 		
-		JPanel estradaDados = new JPanel();
-		estradaDados.setBounds(10, 34, 170, 164);
-		janelaEntrada.add(estradaDados);
-		estradaDados.setLayout(null);
+		List conteudoJanelaEntrada = new List();
+		conteudoJanelaEntrada.setBounds(10, 29, 170, 171);
+		janelaEntrada.add(conteudoJanelaEntrada);
 		
-		JList list = new JList();
-		list.setBounds(0, 0, 160, 164);
-		list.setToolTipText("");
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "9", "8", "7", "4", "5", "6", "3", "2", "1"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		estradaDados.add(list);
 	}
 	
-	private void janelaDeSaida() {
+	private void janelaDeSaida(Arquivo instrucoes) {
 		JPanel janelaSaida = new JPanel();
 		janelaSaida.setBorder(new LineBorder(new Color(0, 0, 0)));
 		janelaSaida.setBounds(220, 392, 190, 210);
@@ -182,31 +173,27 @@ public class ViewSimulador {
 		lblJanelaDeSada.setFont(new Font("Tahoma", Font.BOLD, 14));
 		janelaSaida.add(lblJanelaDeSada);
 		
-		List list = new List();
-		list.setBounds(10, 29, 170, 171);
-		janelaSaida.add(list);
+		List conteudoJanelaSaida = new List();
+		conteudoJanelaSaida.setBounds(10, 29, 170, 171);
+		conteudoJanelaSaida.add(instrucoes.getLinha(0));
+		janelaSaida.add(conteudoJanelaSaida);
 	}
 	
-	private void janelaBreakPoints() {
+	private void janelaBreakPoints(Arquivo instrucoes) {
 		JPanel janelaBreakPoints = new JPanel();
 		janelaBreakPoints.setBorder(new LineBorder(new Color(0, 0, 0)));
 		janelaBreakPoints.setBounds(430, 392, 150, 210);
 		frame.getContentPane().add(janelaBreakPoints);
 		janelaBreakPoints.setLayout(null);
 		
-		JLabel lblBrakPoints = new JLabel("Brak Point's");
-		lblBrakPoints.setBounds(33, 6, 83, 17);
-		lblBrakPoints.setForeground(Color.BLUE);
-		lblBrakPoints.setFont(new Font("Tahoma", Font.BOLD, 14));
-		janelaBreakPoints.add(lblBrakPoints);	
+		JLabel lblBreakPoints = new JLabel("Break Point's");
+		lblBreakPoints.setBounds(31, 6, 91, 17);
+		lblBreakPoints.setForeground(Color.BLUE);
+		lblBreakPoints.setFont(new Font("Tahoma", Font.BOLD, 14));
+		janelaBreakPoints.add(lblBreakPoints);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 35, 130, 164);
-		janelaBreakPoints.add(panel);
-		panel.setLayout(null);
-		
-		List list = new List();
-		list.setBounds(10, 10, 110, 149);
-		panel.add(list);
+		List conteudoBreackPoint = new List();
+		conteudoBreackPoint.setBounds(10, 29, 130, 171);
+		janelaBreakPoints.add(conteudoBreackPoint);
 	}
 }
