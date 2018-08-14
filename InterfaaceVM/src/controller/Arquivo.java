@@ -29,4 +29,13 @@ public class Arquivo {
 		return minhaLista.get(index);
 	}
 	
+	public String getPalavra(int index, int indexPalavra) {
+		
+		String linha = getLinha(index);
+		
+		String[] palavra = linha.split(" "); // separa por "espaço" e aloca cada palavra em cada posição do vetor
+		
+		return palavra[indexPalavra];
+	}
+	
 }

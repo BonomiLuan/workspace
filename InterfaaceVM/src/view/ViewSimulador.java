@@ -1,7 +1,6 @@
 package view;
 
 import controller.Arquivo;
-import controller.separaArquivo;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -101,8 +100,6 @@ public class ViewSimulador {
 	
 	private void janelaConteudoPilha(Arquivo instrucoes){
 		
-		separaArquivo palavra = new separaArquivo();
-		
 		JPanel janelaConteudoPilha = new JPanel();
 		janelaConteudoPilha.setBorder(new LineBorder(new Color(0, 0, 0)));
 		janelaConteudoPilha.setBounds(590, 11, 184, 590);
@@ -120,7 +117,7 @@ public class ViewSimulador {
 			new Object[][] {
 				{instrucoes.getLinha(0), null},
 				{instrucoes.getLinha(1), null},
-				{palavra.getPalavra(instrucoes.getLinha(0), 0), palavra.getPalavra(instrucoes.getLinha(0), 1)},
+				{instrucoes.getPalavra(0, 0), instrucoes.getPalavra(0, 1)},
 				{null, null},
 			},
 			new String[] {
